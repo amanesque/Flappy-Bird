@@ -7,25 +7,40 @@ public class BirdController : MonoBehaviour
     [SerializeField] private float upForce = 5.0f;
     [SerializeField] private float upAngle = 20.0f;
 
-    private Rigidbody2D rigidbody;
-    private BoxCollider2D collider;
+    private Rigidbody2D birdRigidbody;
+    private CapsuleCollider2D birdCollider;
+
+    private bool isAlive = true;
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
-        collider = GetComponent<BoxCollider2D>();
+        birdRigidbody = GetComponent<Rigidbody2D>();
+        birdCollider = GetComponent<CapsuleCollider2D>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (isAlive)
         {
-            rigidbody.AddForce(Vector2.up * upForce, ForceMode2D.Impulse);
-            transform.rotation = Quaternion.Euler(0, 0, upAngle);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                birdRigidbody.AddForce(Vector2.up * upForce, ForceMode2D.Impulse);
+                transform.rotation = Quaternion.Euler(0, 0, upAngle);
+            }
+            else if (Input.GetKeyUp(KeyCode.Space))
+            {
+                transform.rotation = Quaternion.identity;
+            }
         }
-        else if (Input.GetKeyUp(KeyCode.Space))
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacle"))
         {
-            transform.rotation = Quaternion.identity;
+            isAlive = false;
+            Time.timeScale = 0.0f;
+            GameManager.GameOver();
         }
     }
 }
