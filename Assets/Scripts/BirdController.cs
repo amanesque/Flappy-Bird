@@ -32,6 +32,15 @@ public class BirdController : MonoBehaviour
                 transform.rotation = Quaternion.identity;
             }
         }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                isAlive = true;
+                Time.timeScale = 1.0f;
+                GameManager.RestartGame();
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

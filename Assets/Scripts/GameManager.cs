@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -27,6 +28,11 @@ public class GameManager : MonoBehaviour
     {
         gameoverCanvas.SetActive(true);
     }
+    private void DiableGameOverCanvas()
+    {
+        gameoverCanvas.SetActive(false);
+    }
+
 
     public static void UpdateScore()
     {
@@ -36,5 +42,11 @@ public class GameManager : MonoBehaviour
     public static void GameOver()
     {
         instance.EnableGameOverCanvas();
+    }
+
+    public static void RestartGame()
+    {
+        instance.DiableGameOverCanvas();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
