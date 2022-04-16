@@ -22,7 +22,7 @@ public class PipeMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            GameManager.UpdateScore();
+            ScoreManager.UpdateScore();
         }
     }
 }
