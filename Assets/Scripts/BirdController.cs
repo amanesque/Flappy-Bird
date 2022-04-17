@@ -38,7 +38,7 @@ public class BirdController : MonoBehaviour
             {
                 isAlive = true;
                 Time.timeScale = 1.0f;
-                GameManager.RestartGame();
+                GameManager.Instance.RestartGame();
             }
         }
     }
@@ -49,7 +49,7 @@ public class BirdController : MonoBehaviour
         {
             isAlive = false;
             Time.timeScale = 0.0f;
-            GameManager.GameOver();
+            GameManager.Instance.GameOver();
         }
     }
 }

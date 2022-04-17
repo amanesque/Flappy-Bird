@@ -6,24 +6,25 @@ using TMPro;
 public class ScoreManager : MonoBehaviour
 {
     private static ScoreManager instance;
+    public static ScoreManager Instance
+    {
+        get { return instance; }
+    }
 
-    [SerializeField] private TextMeshProUGUI scoreText;
+    private TextMeshProUGUI scoreText;
 
     private int score = 0;
 
     private void Awake()
     {
-        instance = this;      
+        instance = this;
+
+        scoreText = GetComponent<TextMeshProUGUI>();
     }
 
-    private void IncreaseScore()
+    public void UpdateScore()
     {
         score++;
         scoreText.text = score.ToString();
-    }
-
-    public static void UpdateScore()
-    {
-        instance.IncreaseScore();
     }
 }

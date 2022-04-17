@@ -6,31 +6,29 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
-
-    [SerializeField] private GameObject gameoverCanvas;
+    public static GameManager Instance
+    {
+        get { return instance; }
+    }
 
     private void Awake()
     {
         instance = this;
     }
 
-    private void EnableGameOverCanvas()
+    public void GameOver()
     {
-        gameoverCanvas.SetActive(true);
-    }
-    private void DiableGameOverCanvas()
-    {
-        gameoverCanvas.SetActive(false);
+        UIManager.Instance.EnableGameOverCanvas();
     }
 
-    public static void GameOver()
+    public void RestartGame()
     {
-        instance.EnableGameOverCanvas();
-    }
-
-    public static void RestartGame()
-    {
-        instance.DiableGameOverCanvas();
+        UIManager.Instance.DisableGameOverCanvas();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void UpdateScore()
+    {
+        ScoreManager.Instance.UpdateScore();
     }
 }
