@@ -11,24 +11,61 @@ public class GameManager : MonoBehaviour
         get { return instance; }
     }
 
+    private int score = 0;
+
     private void Awake()
     {
         instance = this;
     }
 
-    public void GameOver()
+    private void OnEnable()
     {
-        UIManager.Instance.EnableGameOverCanvas();
+        BirdController.OnPlayerCrash += BirdController_OnPlayerCrash;
+        BirdController.OnRestart += BirdController_OnRestart;
+
+        PipeMovement.OnObstacleClear += PipeMovement_OnObstacleClear;
     }
 
-    public void RestartGame()
+    private void PipeMovement_OnObstacleClear()
     {
-        UIManager.Instance.DisableGameOverCanvas();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        score++;
+
+        if (OnScoreIncrease != null)
+        {
+            OnScoreIncrease(score);
+        }
     }
 
-    public void UpdateScore()
+    private void BirdController_OnRestart()
     {
-        ScoreManager.Instance.UpdateScore();
+        if (OnGameRestart != null)
+        {
+            OnGameRestart();
+        }
     }
+
+    private void BirdController_OnPlayerCrash()
+    {
+        if (OnGameOver != null)
+        {
+            OnGameOver();
+        }
+    }
+
+    private void OnDisable()
+    {
+        BirdController.OnPlayerCrash -= BirdController_OnPlayerCrash;
+        BirdController.OnRestart -= BirdController_OnRestart;
+
+        PipeMovement.OnObstacleClear -= PipeMovement_OnObstacleClear;
+    }
+
+    public delegate void ScoreIncreased(int score);
+    public static event ScoreIncreased OnScoreIncrease;
+
+    public delegate void GameOver();
+    public static event GameOver OnGameOver;
+
+    public delegate void GameRestarted();
+    public static event GameRestarted OnGameRestart;
 }

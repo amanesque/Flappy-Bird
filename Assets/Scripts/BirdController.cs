@@ -8,14 +8,12 @@ public class BirdController : MonoBehaviour
     [SerializeField] private float upAngle = 20.0f;
 
     private Rigidbody2D birdRigidbody;
-    private CapsuleCollider2D birdCollider;
 
     private bool isAlive = true;
 
     private void Awake()
     {
         birdRigidbody = GetComponent<Rigidbody2D>();
-        birdCollider = GetComponent<CapsuleCollider2D>();
     }
 
     private void Update()
@@ -38,7 +36,10 @@ public class BirdController : MonoBehaviour
             {
                 isAlive = true;
                 Time.timeScale = 1.0f;
-                GameManager.Instance.RestartGame();
+                if (OnRestart != null)
+                {
+                    OnRestart();
+                }
             }
         }
     }
@@ -49,7 +50,16 @@ public class BirdController : MonoBehaviour
         {
             isAlive = false;
             Time.timeScale = 0.0f;
-            GameManager.Instance.GameOver();
+            if (OnPlayerCrash != null)
+            {
+                OnPlayerCrash();
+            }
         }
     }
+
+    public delegate void PlayerCrashed();
+    public static event PlayerCrashed OnPlayerCrash;
+
+    public delegate void Restart();
+    public static event Restart OnRestart;
 }

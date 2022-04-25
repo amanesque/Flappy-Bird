@@ -22,7 +22,13 @@ public class PipeMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            GameManager.Instance.UpdateScore();
+           if (OnObstacleClear != null)
+           {
+                OnObstacleClear();
+           }
         }
     }
+
+    public delegate void ObstacleCleared();
+    public static event ObstacleCleared OnObstacleClear;
 }

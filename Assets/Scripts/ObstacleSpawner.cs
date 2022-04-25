@@ -27,8 +27,7 @@ public class ObstacleSpawner : MonoBehaviour
 
         if (obstaclePair != null)
         {
-            obstaclePair.transform.position = new Vector2(transform.position.x + obstaclesPadding, transform.position.y + Random.Range(-3.75f, -0.25f));
-            obstaclePair.transform.rotation = transform.rotation;
+            obstaclePair.transform.SetPositionAndRotation(new Vector2(transform.position.x + obstaclesPadding, transform.position.y + Random.Range(-3.75f, -0.25f)), transform.rotation);
             obstaclePair.SetActive(true);
         }
     }
@@ -37,7 +36,7 @@ public class ObstacleSpawner : MonoBehaviour
     {
         foreach (GameObject obstacle in obstaclePairs)
         {
-            if (!obstacle.gameObject.activeInHierarchy)
+            if (!obstacle.activeInHierarchy)
             {
                 return obstacle;
             }
